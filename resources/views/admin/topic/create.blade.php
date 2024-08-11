@@ -6,6 +6,16 @@
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Kembali</a>
         </div>
 
+        @if ($errors->any())
+            <div class="bg-red-500 text-white p-4 mt-5">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="mt-4">
             <form action="{{ route('topic.store') }}" method="POST" enctype="multipart/form-data" class="mx-auto">
                 @csrf
@@ -14,7 +24,7 @@
                     <div class="mb-5">
                         <label for="title"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                        <input type="text" id="title" name="title"
+                        <input type="text" id="title" name="title" value="{{ old('title') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter title" required />
                     </div>
@@ -25,11 +35,15 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Division</label>
                         <select id="division" name="division"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="marketing">Marketing</option>
-                            <option value="it">IT</option>
-                            <option value="human capital">Human Capital</option>
-                            <option value="product">Product</option>
-                            <option value="redaksi">Redaksi</option>
+                            <option value="marketing" {{ old('division') == 'marketing' ? 'selected' : '' }}>Marketing
+                            </option>
+                            <option value="it" {{ old('division') == 'it' ? 'selected' : '' }}>IT</option>
+                            <option value="human capital" {{ old('division') == 'human capital' ? 'selected' : '' }}>
+                                Human Capital</option>
+                            <option value="product" {{ old('division') == 'product' ? 'selected' : '' }}>Product
+                            </option>
+                            <option value="redaksi" {{ old('division') == 'redaksi' ? 'selected' : '' }}>Redaksi
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -40,19 +54,16 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                     <textarea id="description" name="description"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter description" required></textarea>
+                        placeholder="Enter description" required>{{ old('description') }}</textarea>
                 </div>
 
                 <!-- Image Input -->
                 <div class="mb-5">
-
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Upload
                         Image</label>
                     <input
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         id="image" name="image" type="file">
-
-
                 </div>
 
                 <button type="submit"

@@ -40,7 +40,7 @@ class TopicController extends Controller
             'title' => 'required|string|max:60',
             'division' => 'required|in:marketing,it,human capital,product,redaksi',
             'description' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Generate slug
@@ -101,7 +101,7 @@ class TopicController extends Controller
             'title' => 'required|string|max:255',
             'division' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Update topic
