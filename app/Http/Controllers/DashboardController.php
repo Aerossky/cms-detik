@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,8 +13,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
-        return view('admin.index');
+        // Hitung total topik
+        $totalTopics = Topic::count();
+
+        // Hitung total pengguna kecuali role admin dan super_admin
+        $totalUsers = User::whereNotIn('role', ['admin', 'super_admin'])->count();
+
+        // Kirim data ke view
+        return view('admin.index', [
+            'totalTopics' => $totalTopics,
+            'totalUsers' => $totalUsers,
+        ]);
     }
 
     /**

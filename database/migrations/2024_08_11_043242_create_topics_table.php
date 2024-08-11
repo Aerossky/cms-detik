@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 60);
             $table->enum('division', ['marketing', 'it', 'human capital', 'product', 'redaksi'])->default('marketing');
-            $table->string('description');
+            $table->text('description');
             $table->string('image')->nullable();
             $table->string('slug', 60)->unique();
             $table->foreignId('created_by')->constrained('users', 'id')->onDelete('cascade');

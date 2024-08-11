@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Request as ModelsRequest;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -61,5 +62,22 @@ class RequestController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        // Validate the request
+        $validatedData = $request->validate([
+            'status' => 'required|in:pending,approved,rejected',
+        ]);
+
+        // Find the request by ID
+        $requestToUpdate = ModelsRequest::findOrFail($id);
+
+        // Update the status
+        $requestToUpdate->status = $validatedData['status'];
+        $requestToUpdate->save();
+
+        // Redirect with a success message
+        return redirect()->back()->with('success', 'Request status updated successfully.');
     }
 }

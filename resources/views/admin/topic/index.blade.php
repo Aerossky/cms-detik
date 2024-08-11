@@ -17,10 +17,13 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Created By
+                            No
+                        </th>
+                        <th>
+                            Title
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Title
+                            Created By
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Division
@@ -36,7 +39,7 @@
                 <tbody>
                     @if ($topics->count() == 0)
                         <tr>
-                            <td colspan="5" class="text-center">Data Not Found</td>
+                            <td colspan="6" class="text-center p-5">Data Not Found</td>
                         </tr>
                     @endif
                     @foreach ($topics as $data)
@@ -44,19 +47,25 @@
                             class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $data->users->username }}
+                                {{ $loop->iteration }}
                             </th>
+
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $data->title }}
+                            </th>
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $data->users->username }}
                             </th>
                             <td class="px-6 py-4">
                                 {{ $data->division }}
                             </td>
                             <td class="px-6 py-4">
-                                <img src="{{ asset('images/' . $data->image) }}" alt="Image"
+                                <img src="{{ asset('storage/topics/' . $data->image) }}" alt="topic image"
                                     class="w-16 h-16 object-cover">
                             </td>
+
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-4">
                                     <a href="{{ route('topic.show', $data->slug) }}"

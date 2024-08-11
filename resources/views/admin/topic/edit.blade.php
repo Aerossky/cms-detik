@@ -63,7 +63,7 @@
 
                     <!-- Display current image if exists -->
                     @if ($topic->image)
-                        <img src="{{ asset('images/' . $topic->image) }}" alt="Current Image"
+                        <img src="{{ asset('storage/topics/' . $topic->image) }}" alt="Current Image"
                             class="mt-2 w-32 h-32 object-cover">
                     @endif
                 </div>

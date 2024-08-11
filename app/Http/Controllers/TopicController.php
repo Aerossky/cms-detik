@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Topic;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
 
 class TopicController extends Controller
 {
@@ -15,8 +15,19 @@ class TopicController extends Controller
      */
     public function index()
     {
-        //ROLE SUPER ADMIN
-        $topics = Topic::with('users')->select('id', 'title', 'created_by', 'division', 'image', 'slug')->get();
+        $user = Auth::user();
+        if ($user->role == 'super_admin') {
+            // If the user is a super admin, they can see all topics
+            $topics = Topic::with('users')
+                ->select('id', 'title', 'created_by', 'division', 'image', 'slug')
+                ->get();
+        } elseif ($user->role == 'admin') {
+            // If the user is an admin, they can only see the topics they created
+            $topics = Topic::with('users')
+                ->where('created_by', $user->id)
+                ->select('id', 'title', 'created_by', 'division', 'image', 'slug')
+                ->get();
+        }
 
         return view('admin.topic.index', compact('topics'));
     }
@@ -26,7 +37,6 @@ class TopicController extends Controller
      */
     public function create()
     {
-        //
         return view('admin.topic.create');
     }
 
@@ -39,7 +49,7 @@ class TopicController extends Controller
         $request->validate([
             'title' => 'required|string|max:60',
             'division' => 'required|in:marketing,it,human capital,product,redaksi',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -47,12 +57,7 @@ class TopicController extends Controller
         $slug = Str::slug($request->input('title'), '-');
 
         // Upload file gambar
-        $imageName = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
-        }
+        $imagePath = $request->file('image')->store('topics', 'public');
 
         // Simpan data topik
         Topic::create([
@@ -60,11 +65,11 @@ class TopicController extends Controller
             'division' => $request->input('division'),
             'description' => $request->input('description'),
             'slug' => $slug,
-            'created_by' => 2, // Set manually
-            'image' => $imageName, // Gambar yang diupload
+            'created_by' => Auth::user()->id, // Set manually
+            'image' => basename($imagePath), // Gambar yang diupload
         ]);
 
-        return redirect()->route('topic.index')->with('success', 'Topic created successfully.');
+        return redirect()->route('topic.index')->with('success', 'Topic berhasil dibuat.');
     }
 
     /**
@@ -72,8 +77,6 @@ class TopicController extends Controller
      */
     public function show($slug)
     {
-        //
-
         $topic = Topic::where('slug', $slug)->firstOrFail();
         return view('admin.topic.detail', compact('topic'));
     }
@@ -83,13 +86,9 @@ class TopicController extends Controller
      */
     public function edit($slug)
     {
-        // Temukan topic berdasarkan slug
         $topic = Topic::where('slug', $slug)->firstOrFail();
-
-        // Kembalikan view dengan data topic
         return view('admin.topic.edit', compact('topic'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -101,25 +100,30 @@ class TopicController extends Controller
             'title' => 'required|string|max:255',
             'division' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update topic
+        // Update topic fields
         $topic->title = $validated['title'];
         $topic->division = $validated['division'];
         $topic->description = $validated['description'];
 
         if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($topic->image && Storage::disk('public')->exists('topics/' . $topic->image)) {
+                Storage::disk('public')->delete('topics/' . $topic->image);
+            }
+
             // Simpan gambar baru
-            $imagePath = $request->file('image')->store('images', 'public');
+            $imagePath = $request->file('image')->store('topics', 'public');
             $topic->image = basename($imagePath);
         }
 
+        // Simpan perubahan ke database
         $topic->save();
 
-        return redirect()->route('topic.index')->with('success', 'Topic updated successfully');
+        return redirect()->route('topic.index')->with('success', 'Topic berhasil di-update.');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -127,9 +131,8 @@ class TopicController extends Controller
     public function destroy(Topic $topic)
     {
         // Hapus gambar terkait jika ada
-        if ($topic->image) {
-            // Menghapus gambar dari penyimpanan
-            Storage::disk('public')->delete('images/' . $topic->image);
+        if ($topic->image && Storage::disk('public')->exists('topics/' . $topic->image)) {
+            Storage::disk('public')->delete('topics/' . $topic->image);
         }
 
         // Hapus topic dari database

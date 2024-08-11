@@ -23,4 +23,9 @@ class Topic extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'topic_id');
+    }
 }

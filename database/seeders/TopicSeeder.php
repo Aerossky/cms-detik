@@ -21,6 +21,7 @@ class TopicSeeder extends Seeder
                 'image' => 'marketing-strategies.jpg',
                 'slug' => 'marketing-strategies',
                 'created_by' => 2,
+                'created_at' => now(),
             ],
             [
                 'title' => 'IT Innovations',
@@ -29,6 +30,7 @@ class TopicSeeder extends Seeder
                 'image' => 'it-innovations.jpg',
                 'slug' => 'it-innovations',
                 'created_by' => 3,
+                'created_at' => now(),
             ],
         ];
 
@@ -41,6 +43,7 @@ class TopicSeeder extends Seeder
                     'image' => $item['image'],
                     'slug' => $item['slug'],
                     'created_by' => $item['created_by'],
+                    'created_at' => $item['created_at'],
                 ]
             );
         }
