@@ -53,10 +53,13 @@
                                 </div>
 
                                 <!-- Detail Button -->
-                                <a href="{{ route('course.show', $course->topic->id) }}"
-                                    class="mt-4 inline-block px-4 py-2 rounded-md bg-blue-600 text-white text-center shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    Read
-                                </a>
+                                @if ($course->status == 'approved')
+                                    <a href="{{ route('course.show', $course->topic->id) }}"
+                                        class="mt-4 inline-block px-4 py-2 rounded-md bg-blue-600 text-white text-center shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        Read
+                                    </a>
+                                @endif
+
                             </div>
                         </div>
                     @endforeach
