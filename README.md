@@ -11,3 +11,11 @@ Untuk menjalankan perintah-perintah berikut, buka terminal di VS Code atau edito
 
 Pastikan Anda berada di direktori yang benar sebelum menjalankan perintah-perintah ini.
 
+AKUN
+ROLE: ADMIN
+email : admin@example.com
+password : password123
+
+ROLE: USER
+email : user@example.com
+password : password123
