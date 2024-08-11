@@ -19,7 +19,7 @@
                         <option value="marketing" {{ request('category') == 'marketing' ? 'selected' : '' }}>Marketing
                         </option>
                         <option value="it" {{ request('category') == 'it' ? 'selected' : '' }}>IT</option>
-                        <option value="human-capital" {{ request('category') == 'human-capital' ? 'selected' : '' }}>
+                        <option value="human capital" {{ request('category') == 'human-capital' ? 'selected' : '' }}>
                             Human Capital</option>
                         <option value="product" {{ request('category') == 'product' ? 'selected' : '' }}>Product
                         </option>

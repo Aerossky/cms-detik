@@ -32,6 +32,24 @@ class TopicSeeder extends Seeder
                 'created_by' => 3,
                 'created_at' => now(),
             ],
+            [
+                'title' => 'Human Capital Management',
+                'division' => 'human capital',
+                'description' => 'Exploring strategies for effective human capital management.',
+                'image' => 'human-capital-management.jpg',
+                'slug' => 'human-capital-management',
+                'created_by' => 4,
+                'created_at' => now(),
+            ],
+            [
+                'title' => 'Product Development',
+                'division' => 'product',
+                'description' => 'Discussion on the process of product development.',
+                'image' => 'product-development.jpg',
+                'slug' => 'product-development',
+                'created_by' => 5,
+                'created_at' => now(),
+            ],
         ];
 
         foreach ($data as $item) {

@@ -51,7 +51,52 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'password' => Hash::make('password123'),
                 'email_verified_at' => now(),
-            ]
+            ],
+            [
+                'username' => 'user 1',
+                'first_name' => 'User',
+                'last_name' => 'One',
+                'email' => 'user1@example.com',
+                'role' => 'user',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'username' => 'user 2',
+                'first_name' => 'User',
+                'last_name' => 'Two',
+                'email' => 'user2@example.com',
+                'role' => 'user',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'username' => 'user 3',
+                'first_name' => 'User',
+                'last_name' => 'Three',
+                'email' => 'user3@example.com',
+                'role' => 'user',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'username' => 'user 4',
+                'first_name' => 'User',
+                'last_name' => 'Four',
+                'email' => 'user4@example.com',
+                'role' => 'user',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'username' => 'user 5',
+                'first_name' => 'User',
+                'last_name' => 'Five',
+                'email' => 'user5@example.com',
+                'role' => 'user',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ],
         ];
 
         foreach ($data as $item) {
