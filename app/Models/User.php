@@ -11,6 +11,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // one to many relationship
+    public function topics()
+    {
+        return $this->hasMany(Topic::class, 'created_by');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
